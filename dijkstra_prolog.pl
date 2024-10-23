@@ -1,16 +1,17 @@
-% Example graph edges
+% Example graph esquinas
 % peso :
 % distancia + semaforos(numero de semaforos) + transito(1:menor,2:intermedio,3:mayor)
-edge(a, b, 4).
-edge(a, c, 2).
-edge(b, c, 1).
-edge(b, d, 5).
-edge(c, d, 8).
-edge(c, e, 10).
-edge(d, e, 2).
-edge(d, f, 6).
-edge(e, f, 3).
-
+esquina(a, b, 4).
+esquina(c, a, 2).
+esquina(a, c, 2).
+esquina(b, c, 1).
+esquina(b, d, 5).
+esquina(c, d, 8).
+esquina(c, e, 10).
+esquina(d, e, 2).
+esquina(d, f, 6).
+esquina(e, f, 3).
+esquina(e, c, 10).
 % Main dijkstra predicate to be called by the user
 dijkstra(Start, Goal, Path, Cost) :-
     dijkstra([[0, Start]], Goal, [], RevPath, Cost),
@@ -23,7 +24,7 @@ dijkstra([[Cost, Goal|Path]|_], Goal, _, [Goal|Path], Cost).
 dijkstra([[Cost, Node|Path]|Queue], Goal, Visited, ResultPath, ResultCost) :-
     findall(
         [NewCost, Neighbor, Node|Path],
-        (edge(Node, Neighbor, Weight), \+ member(Neighbor, Visited), NewCost is Cost + Weight),
+        (esquina(Node, Neighbor, Weight), \+ member(Neighbor, Visited), NewCost is Cost + Weight),
         Neighbors),
     append(Queue, Neighbors, NewQueue),
     sort(NewQueue, SortedQueue),
